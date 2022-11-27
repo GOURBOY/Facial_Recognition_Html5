@@ -8,21 +8,33 @@
     <style>
         body{
             margin: 50px;
+            background-color: yellow;
         }
         #videoElement{
             width: 500px;
             height: 375px;
-            background-color: #666;
+            background-color: yellow;
         }
         .container{
             margin: 0px auto;
             width: 500px;
             height: 375px;
             border: 10px #333 solid;
+            border-radius: 50%;
 
         }
-        h1{
-            
+        .stop{
+            border: rgb(0, 0, 0) solid 5px;
+           
+            width: 100px;
+            background-color: black;
+            border-radius: 50%;
+            color: white;
+            font-size: larger;
+            display: inline;
+        }
+        video{
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -32,20 +44,36 @@
             <video autoplay="true" id="videoElement">
 
             </video>
-        </div>
-
+        </div><br><br>
+      <div>  <center><button class="stop" onclick="start()"><b>START</b>
+      </button><button class="stop" onclick="stop()"><b>STOP</b></button></center></div>
 <script>
     let video = document.querySelector("#videoElement");
-    if(navigator.mediaDevices.getUserMedia){
+        function start(){
+         if(navigator.mediaDevices.getUserMedia){
         navigator.mediaDevices.getUserMedia({video:true})
         .then(function (stream)
         { video.srcObject = stream; })
         .catch(function (error){
             console.log("Something went wrong!");
         })
-    }else{
+        }else{
         console.log("getUserMedia not supported!");
-    }
+         }
+            }
+   
+
+    function stop(e) {
+  var stream = video.srcObject;
+  var tracks = stream.getTracks();
+
+  for (var i = 0; i < tracks.length; i++) {
+    var track = tracks[i];
+    track.stop();
+  }
+
+  video.srcObject = null;
+}
 </script>
 </body>
 </html>
